@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Examen Diagnóstico - Cristian Cruz</title>
+
+    <script>
+
+        function validarNum (num, min, max){
+
+            if(num == null){
+                return false;
+            }
+
+            if(isNaN(num)){
+                alert("Solo los numeros son válidos")
+                return false
+            }
+            
+            if(max || min){
+                if(max && min){
+                    if(num < min || num > max){
+                        alert("El número ingresado no se encuentra en el rango aceptable (De "+min+" a "+max+")")
+                        return false
+                    }
+                }else if(min){
+                    if(num < min){
+                        alert("El número ingresado no es mayor al minimo ("+min+")")
+                        return false
+                    }
+                }else if(max){
+                    if(num > max){
+                        alert("El número ingresado es mayor al maximo ("+max+")")
+                        return false
+                    }
+                }
+            }
+
+            return true
+        }
+
+        function ej1(){
+
+            let productos = [
+                {
+                    nombre : "Coca Cola",
+                    precio : 120
+                },
+                {
+                    nombre : "Pepsi",
+                    precio : 100
+                },
+                {
+                    nombre : "Manaos",
+                    precio : 80
+                }
+            ]
+
+            let promptString = "Elija qué producto desea adquirir en base al numero que le corresponde \n";
+
+            for(let producto in productos){
+                promptString += parseInt(producto)+1 + "- " + productos[producto].nombre + " ($"+productos[producto].precio+")\n"
+            }
+
+            let eleccion = prompt(promptString)
+
+            if(!validarNum(eleccion, 1, 3))
+                return
+
+            let cantidad = prompt("Ingrese la cantidad del producto nro. "+ eleccion+" que desea")
+
+            if (!validarNum(cantidad,1,null))
+                return
+
+            let precioDeVenta = productos[eleccion-1].precio * cantidad;
+
+            let precioBruto = precioDeVenta + precioDeVenta*0.21
+
+            let precioTotal = precioBruto > 50000 ? precioBruto * 0.95 : precioBruto;
+
+            alert("El precio total por la compra de "+cantidad+" unidades de "+productos[eleccion-1].nombre+ " es $"+precioTotal)
+        }
+
+        function ej2(){
+            //TODO: ripear esto
+        }
+    </script>
+</head>
+
+<body>
+    <div style="width: 80vw; margin: auto;">
+        <div align="center">
+            <h3>Ejercicio 1</h3>
+            <p>Escribir el algoritmo que permita emitir la factura correspondiente a una compra de un artículo determinado del que
+                se adquieren una o varias unidades. El IVA a aplicar es del 12% y si el precio bruto (precio de venta + IVA) es mayor
+                de $50000, se aplicará un descuento del 5%</p>
+
+            <h3>Ejercicio 2</h3>
+            <p>
+                Se desea realizar una estadística de pesos de los alumnos de un colegio de acuerdo a la siguiente tabla:
+                
+            </p>
+            <table>
+                <tr><td>Alumnos de menos de 40 kg</td></tr>
+                <tr><td>Alumnos entre 40 y 50 kg</td></tr>
+                <tr><td>Alumnos de mas de 50 y menos de 60 kg</td></tr>
+                <tr><td>Alumnos de mas o igual a 60 kg</td></tr>
+            </table>
+            <p>
+                La entrada de los pesos de los alumnos se terminará cuando se introduzca el valor centinela -99. Al final se desea
+                obtener cuántos alumnos hay en cada uno de las categorías.
+            </p>
+
+            <h3>Ejercicio 3</h3>
+            <p>
+                Diseñar un algoritmo para calcular la velocidad (en metros/segundo) de los corredores de una carrera de 1500
+                metros. La entrada serán parejas de números (minutos, segundos) que darán el tiempo de cada corredor. Por cada
+                corredor se imprimirá el tiempo en minutos y segundos, así como la velocidad media. El bucle se ejecutará hasta que
+                demos una entrada de 0,0 que será la marca de fin de entrada de datos.
+            </p>
+
+            <h4>Ejercicio 4</h4>
+            <p>
+                En un videoclub se ofrece la promoción de llevarse tres películas por el precio de las dos más baratas. Haga un
+                programa que, dados los tres precios de las películas, determine la cantidad a pagar.
+            </p>
+
+            <h3>Ejercicio 5</h3>
+            <p>
+                Escriba un programa que reciba cuatro calificaciones de un estudiante y devuelva el promedio y la máxima y
+                la mínima calificación
+            </p>
+        </div>
+
+        <div align="center">
+            <button onclick="ej1()">
+                <h3>Ejercicio 1</h3>
+            </button>
+        </div>    
+        <div align="center">
+            <button onclick="ej2()">
+                <h3>Ejercicio 2</h3>
+            </button>
+        </div>  
+        <div align="center">
+            <button onclick="ej3()">
+                <h3>Ejercicio 3</h3>
+            </button>
+        </div>  
+        <div align="center">
+        <button onclick="ej4()">
+            <h3>Ejercicio 4</h3>
+        </button>
+        </div>
+        <div align="center">
+            <button onclick="ej5()">
+                <h3>Ejercicio 5</h3>
+            </button>
+        </div> 
+        
+        
+    </div> 
+</body>
+</html>
