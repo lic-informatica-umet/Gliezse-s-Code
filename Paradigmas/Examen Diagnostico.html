@@ -132,7 +132,30 @@
         }
 
         function ej3(){
+            while(true){
 
+                let tiempo = prompt("Ingrese el tiempo (mm,ss) o 0,0 para salir")
+
+                if(tiempo == "0,0"){
+                  break
+                }
+
+                if(!tiempo.includes(",")){
+                  alert("Formato invalido")
+                }else{
+                  let comma = tiempo.indexOf(",")
+
+                  let minutos = tiempo.slice(0,comma)
+                  let segundos = tiempo.slice(comma+1,tiempo.length)
+
+                  let segundosTotales = (minutos * 60) + parseInt(segundos)
+
+                  let velocidadMxS = (1500 / segundosTotales).toFixed(2);
+
+                  let text = `El corredor corrió 1500 metros en ${minutos}:${segundos} (${segundosTotales} segundos), alcanzando una velocidad promedio de ${velocidadMxS} m/s`
+                  alert(text)
+                }
+              }
         }
 
         function ej4(){
