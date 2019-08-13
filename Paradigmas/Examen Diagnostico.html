@@ -10,7 +10,7 @@
 
         function validarNum (num, min, max){
 
-            if(num == null){
+            if(num == null || num == ""){
                 return false;
             }
 
@@ -84,8 +84,90 @@
         }
 
         function ej2(){
-            //TODO: ripear esto
+            let pesos = []
+
+            //t = total
+            let t40 = 0
+            let t40y50 = 0
+            let t50y60 = 0
+            let t60 = 0
+
+            while (true){
+                let peso = prompt("Ingrese el peso del alumno o -99 para dejar de ingresar pesos. Alumnos ingresados: " + pesos.length)
+
+                if(peso == -99 || peso == null){
+                    break
+                }
+
+                if(validarNum(peso,0,null)){
+                    pesos.push(peso)
+                    alert("Alumno nro. "+pesos.length+" registrado con peso: "+pesos[pesos.length - 1]+" kg")
+
+                    if (peso < 40) {
+                        t40++
+                    } else if (peso < 50) {
+                        t40y50++
+                    } else if (peso < 60) {
+                        t50y60++
+                    } else {
+                        t60++
+                    }
+                }
+            }
+
+            if(pesos.length < 1){
+                alert("Ningun peso ingresado!")
+                return
+            }
+
+            //p = porcentaje
+            let p40 = ((t40 * 100) / pesos.length).toFixed(2)
+            let p40y50 = ((t40y50 * 100) / pesos.length).toFixed(2)
+            let p50y60 = ((t50y60 * 100) / pesos.length).toFixed(2)
+            let p60 = ((t60 * 100) / pesos.length).toFixed(2)
+
+            let stringFinal = "Porcentajes:\n"+p40+"% de los alumnos pesan menos de 40 kg.\n"+p40y50+"% pesan entre 40 y 50 kg.\n"+p50y60+"% pesan entre 50 y 60 kg.\n"+p60+"% pesan más de 60 kg"
+
+            alert(stringFinal)
         }
+
+        function ej3(){
+
+        }
+
+        function ej4(){
+
+        }
+
+        function ej5(){
+            let max = 0;
+            let min = 11;
+
+            let sum = 0
+
+            for(let i = 0 ; i < 4 ; i ++){
+                let nota = prompt("Ingrese la nota " + (i+1) + " de 4")
+                
+                while(!validarNum(nota,1,10)){
+                    nota = prompt("Vuelva a ingresar la nota")
+                }
+
+                sum += parseInt(nota)
+
+                if(nota > max){
+                    max = nota
+                }
+                
+                if(nota < min){
+                    min = nota
+                }
+            }
+
+            let promedio = sum / 4
+
+            alert("Promedio de notas: " + promedio+"\n Nota maxima: "+max+"\n Nota minima: "+min)
+        }
+
     </script>
 </head>
 
@@ -145,12 +227,12 @@
             </button>
         </div>  
         <div align="center">
-            <button onclick="ej3()">
+            <button onclick="ej3()" disabled>
                 <h3>Ejercicio 3</h3>
             </button>
         </div>  
         <div align="center">
-        <button onclick="ej4()">
+        <button onclick="ej4()" disabled>
             <h3>Ejercicio 4</h3>
         </button>
         </div>
