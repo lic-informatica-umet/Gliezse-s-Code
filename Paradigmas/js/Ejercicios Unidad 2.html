@@ -1,0 +1,170 @@
+<script>
+//1 Array con numeros entre 4 y 14
+
+let arr1 = []
+
+for(let i = 4; i <= 14 ; i++){
+    arr1.push(i)
+}
+
+//2 Array con numeros entre 25 y 35 divididos por 3
+
+let arr2 = []
+
+for(let i = 25; i <= 35 ; i++){
+    arr2.push(i/3)
+}
+//3 Array que haga un array de 5 numeros consecutivos y lo copie
+
+let arr3 = []
+let arr3bis = []
+
+for(let i = 0; i <= 5 ; i++){
+    arr3.push(i)
+}
+
+arr3bis = arr3.slice()
+
+//4 Ingresar n (<25) para generar array con los numeros pares anteriores
+
+let arr4 = []
+//let n = prompt("Ingrese n")
+let n4 = 25
+
+for(let i = 0 ; i <= n4 ; i++){
+    if( i%2 === 0 ){
+        arr4.push(i)
+    }
+}
+
+//console.log(arr4)
+
+//5 Ingresar n (<30) para ingresar un array de n elementos. Si el último es menor a 10 imprimir los negativos, sino, los demas
+
+let arr5 = []
+//let n = prompt("Ingrese n")
+let n5 = 30
+
+for(let i = 0 ; i < n5; i++){
+    //arr5.push(promp("Ingrese el numero para la posición "+i))
+    arr5.push(Math.floor(Math.random() * 50))
+}
+
+for(let i = 0 ; i < arr5.length ; i ++){
+    if(arr5[arr5.length] < 10){
+        if(arr5[i] < 0){
+            //console.log(arr5[i])
+        }
+    }else{
+        if(arr5[i]>0){
+            //console.log(arr5[i])
+        }
+    }
+}
+
+//6 Array lleno de los primeros numeros pares y calcular su suma
+
+let arr6 = []
+let contador = 0
+
+while(arr6.length < 20){
+    if(contador % 2 === 0){
+        arr6.push(contador)
+    }
+}
+
+let sum6 = 0
+
+for(let i = 0 ; i < arr6.length ; i++){
+    sum6 += arr6[i]
+}
+
+//7 Solicitar cinco numeros, almacernarlos en un array y calcular la medida aritmética
+
+let arr7 = []
+
+for(let i = 0 ; i <= 5 ; i++){
+    //arr7[i] = prompt('Ingrese el num de la posición '+i)
+    arr7[i] = Math.floor(Math.random()*50)
+}
+
+let sum7=0
+for(let i = 0 ; i < arr7.length ; i++){
+    sum7 += arr7[i]
+}
+
+let promedio7 = sum7/arr7.length
+
+//8 Asignar los numeros [...numeritos] a un array y determinar en que posicion se encuentra el máximo valor
+
+let arr8 = [23, 45, 68, 99, 10, 15, 4]
+let max8 = Math.max(...arr8)
+let index = arr8.indexOf(max8)
+
+//9 Asignar los numeros [...otrosnumeritos] y calcular la suma de los negativos y los positivos
+
+let arr9 = [-2, 5, 8, -9, 10, 15, -4]
+
+let sumPos = 0
+let sumNeg = 0
+
+arr9.forEach(num => num > 0 ? sumPos += num : sumNeg += num)
+
+//10 Asignar los numeros [...xd] y determinar la posición donde se encuentran el mayor y el menor numero
+
+let arr10 = [23, 45, 68, 99, 10, 15, 4]
+
+let max10 = Math.max(...arr10)
+let min = Math.min(...arr10)
+
+let posMax = arr10.indexOf(max10)
+let posMin = arr10.indexOf(min)
+
+//11 Ingresar un n (<20) y un array de n componentes. Luego, en base a este, crear uno que contenga los factoriales de cada num
+
+let arr11 = []
+let n11 = 15
+
+for(let i = 0 ; i < n11 ; i ++){
+    arr11.push(i)
+}
+
+const factorial = (n) => {
+    let fact = 1
+
+    for(let i = n ; i >= 1 ; i--){
+        fact = fact*i 
+    }
+
+    return fact
+}
+
+let arr11fact = arr11.map( num => factorial(num))
+
+
+//12 Ingresar un n (<25) para ingresar un array de n componentes. Si la suma de estos resulta ser mayor a 0, imprimir
+//   los de index par, sino, los de index impar
+
+let arr12 = []
+let n = 25
+
+for(let i = 0 ; i < n ; i ++){
+    //arr12[i] = prompt("Ingrese el numero para la posición "+i)
+    arr12[i] = i
+}
+
+let sum12 = 0
+
+arr12.forEach(num => sum12 += num)
+
+let inicial = 1
+
+if(sum12 > 0){
+    inicial = 2
+}
+
+
+for(let i = inicial ; i < arr12.length ; i = i+2){
+    //console.log(arr12[i])
+}
+</script>

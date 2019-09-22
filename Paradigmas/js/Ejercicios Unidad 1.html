@@ -1,0 +1,88 @@
+<script>
+    let arr = []
+
+    for(let i = 0 ; i < 3 ; i++){
+        arr[i] = parseInt( prompt(`Ingrese el numero ${i}`))
+    }
+
+    let sum = 0
+    let max = 0
+    let min = 11
+
+    arr.forEach( n => {
+        sum += n
+        n > max ? max = n : ""
+        n < min ? min = n : ""
+    })
+
+    console.log(`Promedio: ${Math.floor(sum/3)}`)
+    console.log(`Max: ${max}`)
+    console.log(`Min: ${min}`)
+
+    let unsortedArr = [44,2,63,75,23,42]
+    
+    let sorted = false
+
+    while(!sorted){
+
+        sorted = true
+
+        for(let i = 0 ; i < unsortedArr.length-1 ; i++){
+            if(unsortedArr[i] > unsortedArr[i+1]){
+                let aux = unsortedArr[i]
+                unsortedArr[i] = unsortedArr[i+1]
+                unsortedArr[i+1] = aux
+                sorted = false
+            }
+        }
+    }
+
+    console.log(unsortedArr)
+
+    let matrix = Array(3).fill(Array(3).fill())
+
+    matrix[0] = [1,3,6]
+    matrix[1] = [4,2,4]
+    matrix[2] = [2,3,9]
+
+    let matrixSum = 0
+    let matrixMax = 0
+    let matrixMin = 11
+
+    for(let i = 0 ; i < 3 ; i++){
+        for(let j = 0 ; j < 3 ; j++){
+            matrixSum += matrix[i][j]
+
+            matrixMax = matrix[i][j] > matrixMax ? matrix[i][j] : matrixMax
+            matrixMin = matrix[i][j] < matrixMin ? matrix[i][j] : matrixMin
+
+            if(i == j){
+                console.log(matrix[i][j])
+            }
+
+        }
+    }
+
+    console.log("Promedio "+matrixSum/9+" max: "+matrixMax+ " min: "+matrixMin)
+
+    for(let i = 0 ; i < 3 ; i++){
+        console.log("columna "+(i+1))
+
+        for(let j = 0 ; j < 3 ; j++){
+            console.log(matrix[j][i])
+        }
+    }
+
+    for (let i = 0 ; i < 3 ; i++){
+        let row = []
+        for (let j = 0 ; j < 3 ; j++){
+            if(i===j){
+                row += matrix[i][j]
+            }else{
+                row += "-"
+            }
+        }
+        console.log(row)
+    }
+
+</script>
