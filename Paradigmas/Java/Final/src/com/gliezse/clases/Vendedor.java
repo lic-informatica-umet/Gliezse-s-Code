@@ -5,7 +5,7 @@ public class Vendedor extends Empleado {
     double montoVenta;
     double comisionVenta;
 
-    public Vendedor(String apellido, String dni, char sexo, String legajo, double sueldoBase, double montoVenta, double comisionVenta) {
+    public Vendedor(String apellido, String dni, String sexo, String legajo, double sueldoBase, double montoVenta, double comisionVenta) {
         super(apellido, dni, sexo, legajo);
         this.sueldoBase = sueldoBase;
         this.montoVenta = montoVenta;
@@ -37,7 +37,9 @@ public class Vendedor extends Empleado {
     }
 
     public double getSueldo(){
-        return sueldoBase + (montoVenta * (comisionVenta/100));
+        double sueldoNeto =  sueldoBase + (montoVenta * (comisionVenta/100));
+        int sueldoEntero = (int) (sueldoNeto * 100);
+        return (double)(sueldoEntero) / 100;
     }
 
     @Override

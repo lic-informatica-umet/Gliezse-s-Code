@@ -4,7 +4,7 @@ public class Operario extends Empleado {
     double horasMensuales;
     double valorHoras;
 
-    public Operario(String apellido, String dni, char sexo, String legajo, double horasMensuales, double valorHoras) {
+    public Operario(String apellido, String dni, String sexo, String legajo, double horasMensuales, double valorHoras) {
         super(apellido, dni, sexo, legajo);
         this.horasMensuales = horasMensuales;
         this.valorHoras = valorHoras;
@@ -27,7 +27,9 @@ public class Operario extends Empleado {
     }
 
     public double getSueldo(){
-        return horasMensuales * valorHoras;
+        double sueldoNeto =  horasMensuales * valorHoras;
+        int sueldoEntero = (int) (sueldoNeto * 100);
+        return (double)(sueldoEntero) / 100;
     }
 
     @Override

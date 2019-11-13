@@ -3,7 +3,7 @@ package com.gliezse.clases;
 public class Empleado extends Persona {
     String legajo;
 
-    public Empleado(String apellido, String dni, char sexo, String legajo) {
+    public Empleado(String apellido, String dni, String sexo, String legajo) {
         super(apellido, dni, sexo);
         this.legajo = legajo;
     }

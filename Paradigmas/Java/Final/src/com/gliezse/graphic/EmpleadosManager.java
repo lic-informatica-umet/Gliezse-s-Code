@@ -9,13 +9,12 @@ import com.gliezse.intefaces.Constants;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.LinkedList;
 import java.util.List;
 
-public class EmpleadosManager {
-    private JPanel panelMain;
+public class EmpleadosManager extends Container {
+    public JPanel panelMain;
     private JTextField apellidoField;
-    private JComboBox sexoField;
+    private JComboBox<ComboItem> sexoField;
     private JTextField dniField;
     private JRadioButton operarioRadioButton;
     private JRadioButton vendedorRadioButton;
@@ -25,17 +24,17 @@ public class EmpleadosManager {
     private JTextField porcentajeField;
     private JTextField sueldoBasicoField;
     private JButton registrarEmpleadoButton;
-    private JTextField sueldoNetoField;
+    private JLabel sueldoNetoField;
     private JButton mostrarEmpleadosRegistradosButton;
     private JTextArea empleadosTextArea;
-    private JLabel errorLegajo;
     private JTextField legajoField;
-    private JFormattedTextField legajoFormattedTextField;
+    private JLabel sueldoAcumuladoTotalLabel;
 
-    private Empresa empresa = new Empresa("Horacio Records");
+    public EmpleadosManager(Empresa empresa) {
+        sexoField.addItem(new ComboItem(Constants.sexoMasculinoKey, Constants.sexoMasculinoValue));
+        sexoField.addItem(new ComboItem(Constants.sexoFemeninoKey, Constants.sexoFemeninoValue));
 
-    public EmpleadosManager() {
-
+        //Validadores
         legajoField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -91,75 +90,104 @@ public class EmpleadosManager {
             valorHoraField.setEnabled(true);
 
             montoVendidoField.setEnabled(false);
+            montoVendidoField.setText("");
             sueldoBasicoField.setEnabled(false);
+            sueldoBasicoField.setText("");
             porcentajeField.setEnabled(false);
+            porcentajeField.setText("");
         });
         vendedorRadioButton.addActionListener(e -> {
             operarioRadioButton.setSelected(false);
 
             cantHorasField.setEnabled(false);
+            cantHorasField.setText("");
             valorHoraField.setEnabled(false);
+            valorHoraField.setText("");
 
             montoVendidoField.setEnabled(true);
             sueldoBasicoField.setEnabled(true);
             porcentajeField.setEnabled(true);
         });
+
+        //Submit y display empleados
         registrarEmpleadoButton.addActionListener(e -> {
             if (!emptyFields()){
                 String legajo = legajoField.getText();
                 String apellido = apellidoField.getText();
-                char sexo = sexoField.getSelectedItem().toString() == "Masculino" ? Constants.sexoMasculino : Constants.sexoFemenino;
+                String sexo = sexoField.getSelectedItem().toString().equals(Constants.sexoMasculinoKey) ? Constants.sexoMasculinoValue : Constants.sexoFemeninoValue;
                 String dni = dniField.getText();
 
-                if (operarioRadioButton.isSelected()){
-                    double cantidadHoras = Double.parseDouble(cantHorasField.getText());
-                    double valorHora = Double.parseDouble(valorHoraField.getText());
+                double sueldo;
 
-                    Operario operario = new Operario(apellido, dni, sexo, legajo, cantidadHoras, valorHora);
-                    sueldoNetoField.setText( "$" + operario.getSueldo());
+                try {
+                    if (operarioRadioButton.isSelected()) {
+                        double cantidadHoras = Double.parseDouble(cantHorasField.getText());
+                        double valorHora = Double.parseDouble(valorHoraField.getText());
 
-                    empresa.addEmpleados(operario);
-                } else {
-                    double sueldoBase = Double.parseDouble(sueldoBasicoField.getText());
-                    double montoVenta = Double.parseDouble(montoVendidoField.getText());
-                    double comisionVenta = Double.parseDouble(porcentajeField.getText());
+                        Operario operario = new Operario(apellido, dni, sexo, legajo, cantidadHoras, valorHora);
+                        sueldo = operario.getSueldo();
+                        sueldoNetoField.setText("$" + sueldo);
 
-                    Vendedor vendedor = new Vendedor(apellido, dni, sexo, legajo, sueldoBase, montoVenta, comisionVenta);
-                    sueldoNetoField.setText( "$" + vendedor.getSueldo());
+                        empresa.addEmpleados(operario);
+                    } else {
+                        double sueldoBase = Double.parseDouble(sueldoBasicoField.getText());
+                        double montoVenta = Double.parseDouble(montoVendidoField.getText());
+                        double comisionVenta = Double.parseDouble(porcentajeField.getText());
 
-                    empresa.addEmpleados(vendedor);
+                        Vendedor vendedor = new Vendedor(apellido, dni, sexo, legajo, sueldoBase, montoVenta, comisionVenta);
+                        sueldo = vendedor.getSueldo();
+                        sueldoNetoField.setText("$" + sueldo);
+
+                        empresa.addEmpleados(vendedor);
+                    }
+                    sueldoAcumuladoTotalLabel.setText("$" + getSueldoTotal(empresa));
+                    JOptionPane.showMessageDialog(panelMain, "El empleado ha sido agregado exitosamente.");
+
+                    cleanFields();
+                } catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(panelMain, "Los datos ingresados fueron invalidos");
                 }
             } else {
                 JOptionPane.showMessageDialog(panelMain, "Aún hay campos vacios");
             }
         });
-        mostrarEmpleadosRegistradosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Empleado> lista = empresa.getListaEmpleados();
+        mostrarEmpleadosRegistradosButton.addActionListener(e -> {
+            List<Empleado> lista = empresa.getListaEmpleados();
 
-                empleadosTextArea.setText("");
-
-                if (lista.size() == 0){
-                    empleadosTextArea.setText("gg bro");
-                } else {
-                    List<String> data = new LinkedList<>();
-
-                    lista.forEach(empleado -> {
-                        data.add(empleado.getApellido() + " " + empleado.getDni());
-                    });
-
-                    data.forEach(dato -> {
-                        empleadosTextArea.append(dato + "\n");
-                    });
-                }
-
+            if (lista.size() == 0){
+                empleadosTextArea.setText("Aún no se han registrado empleados");
+            } else {
+                empleadosTextArea.setText("Empleados de " + empresa.getNombre() + "\n\n");
+                lista.forEach(empleado -> {
+                    empleadosTextArea.append(
+                            "Legajo: " + empleado.getLegajo() +
+                            "\nDNI: " + empleado.getDni() +
+                            "\nApellido: " + empleado.getApellido() +
+                            "\nSexo: " + empleado.getSexo() +
+                            "\nPuesto: "
+                    );
+                    if (empleado instanceof Vendedor){
+                        empleadosTextArea.append(
+                            "Vendedor" +
+                            "\nSueldo: $" +
+                            ((Vendedor) empleado).getSueldo()
+                        );
+                    } else {
+                        empleadosTextArea.append(
+                            "Operario" +
+                            "\nSueldo: $" +
+                            ((Operario) empleado).getSueldo()+""
+                        );
+                    }
+                    empleadosTextArea.append("\n\n");
+                });
             }
+
         });
     }
 
     public void checkNumeric(KeyEvent e){
-        if (!Character.isDigit(e.getKeyChar())){
+        if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '.'){
             e.consume();
         }
     }
@@ -186,12 +214,35 @@ public class EmpleadosManager {
         }
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("EmpleadosManager");
-        frame.setContentPane(new EmpleadosManager().panelMain);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(1000, 600));
-        frame.pack();
-        frame.setVisible(true);
+    public void cleanFields(){
+        legajoField.setText("");
+        apellidoField.setText("");
+        dniField.setText("");
+
+        operarioRadioButton.setSelected(false);
+        vendedorRadioButton.setSelected(false);
+
+        cantHorasField.setText("");
+        valorHoraField.setText("");
+
+        sueldoBasicoField.setText("");
+        montoVendidoField.setText("");
+        porcentajeField.setText("");
+    }
+
+    public double getSueldoTotal(Empresa empresa){
+        final double[] sueldoTotal = {0};
+
+        empresa.getListaEmpleados().forEach(empleado -> {
+            if (empleado instanceof Vendedor){
+                sueldoTotal[0] += ((Vendedor) empleado).getSueldo();
+            } else {
+                sueldoTotal[0] += ((Operario) empleado).getSueldo();
+            }
+        });
+
+        //Se limita a 2 decimales
+        int sueldoEntero = (int)(sueldoTotal[0]*100);
+        return (double)(sueldoEntero)/100;
     }
 }

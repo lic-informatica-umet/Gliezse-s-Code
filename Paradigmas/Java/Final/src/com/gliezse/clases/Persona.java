@@ -3,9 +3,9 @@ package com.gliezse.clases;
 public class Persona {
     String apellido;
     String dni;
-    char sexo;
+    String sexo;
 
-    public Persona(String apellido, String dni, char sexo) {
+    public Persona(String apellido, String dni, String sexo) {
         this.apellido = apellido;
         this.dni = dni;
         this.sexo = sexo;
@@ -27,11 +27,11 @@ public class Persona {
         this.dni = dni;
     }
 
-    public char getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(char sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 

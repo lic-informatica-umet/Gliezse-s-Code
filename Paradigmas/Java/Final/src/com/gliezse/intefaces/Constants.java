@@ -1,6 +1,9 @@
 package com.gliezse.intefaces;
 
 public interface Constants {
-    public final char sexoMasculino = 'H';
-    public final char sexoFemenino = 'M';
+    String sexoMasculinoKey = "H";
+    String sexoMasculinoValue = "Hombre";
+
+    String sexoFemeninoKey = "M";
+    String sexoFemeninoValue = "Mujer";
 }
